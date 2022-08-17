@@ -12,6 +12,7 @@ steps:
     - pip install flake8 black 
     - flake8 .
     - black --diff .
+    - black --check .
 
 - name: package_and_unit_tests
   image: python
