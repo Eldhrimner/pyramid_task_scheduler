@@ -34,6 +34,6 @@ steps:
       from_secret: pypi_password
     skip_build: True
   when:
-    branch: master
+    branch: main
     event: push
     repo: pmagyar/pyramid_task_scheduler
