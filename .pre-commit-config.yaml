@@ -3,17 +3,17 @@ default_language_version:
 
 repos:
 -   repo: https://github.com/mgedmin/check-manifest
-    rev: "0.46"
+    rev: "0.48"
     hooks:
     -   id: check-manifest
 
 -   repo: https://github.com/PyCQA/bandit
-    rev: '1.7.0' # Update me!
+    rev: '1.7.4' # Update me!
     hooks:
     - id: bandit
 
 -   repo: https://github.com/psf/black
-    rev: stable
+    rev: 22.6.0
     hooks:
     - id: black
       language_version: python3.8
