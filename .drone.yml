@@ -36,4 +36,3 @@ steps:
   when:
     branch: main
     event: push
-    repo: Eldhrimner/pyramid_task_scheduler
