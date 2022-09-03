@@ -22,8 +22,7 @@ steps:
 - name: build
   image: python
   commands:
-    - python3 setup.py bdist_wheel
-    - python3 setup.py sdist --formats=gztar
+    - python3 -m build
 
 - name: pypi_publish
   image: plugins/pypi
@@ -34,5 +33,4 @@ steps:
       from_secret: pypi_password
     skip_build: True
   when:
-    branch: main
-    event: push
+    event: promote
