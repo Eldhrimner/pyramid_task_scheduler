@@ -52,7 +52,7 @@ steps:
     - python3 -m build
   depends_on:
   - linting
-  trigger:
+  when:
     event:
     - push
     - pull_request
@@ -66,7 +66,7 @@ steps:
     password:
       from_secret: pypi_password
     skip_build: True
-  trigger:
+  when:
     event:
       - promote
   depends_on:
