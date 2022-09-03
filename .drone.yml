@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: common
+name: pyramid_task_scheduler
 steps:
 - name: flake8 and black
   image: python
@@ -10,99 +10,52 @@ steps:
     - black --diff .
     - black --check .
 
----
-kind: pipeline
-name: python-3-6
-
-steps:
-- name: test
+- name: python3-6
   image: python:3.6
   commands:
   - pip3 install .
+  depends_on:
+  - common
 
-depends_on:
-- common
-
----
-kind: pipeline
-name: python-3-7
-
-steps:
-- name: test
+- name: python3-7
   image: python:3.7
   commands:
   - pip3 install .
+  depends_on:
+  - common
 
-depends_on:
-- common
-
----
-kind: pipeline
-name: python-3-8
-
-steps:
-- name: test
+- name: python3-8
   image: python:3.8
   commands:
   - pip3 install .
+  depends_on:
+  - common
 
-depends_on:
-- common
-
----
-kind: pipeline
-name: python-3-9
-
-steps:
-- name: test
+- name: python3-9
   image: python:3.9
   commands:
   - pip3 install .
+  depends_on:
+  - common
 
-depends_on:
-- common
-
----
-kind: pipeline
-name: python-3-10
-
-steps:
-- name: test
+- name: python3-10
   image: python:3.10
   commands:
   - pip3 install .
+  depends_on:
+  - common
 
-depends_on:
-- common
-
----
-kind: pipeline
-name: test-build
-trigger:
-  event:
-  - push
-  - pull_request
-
-steps:
 - name: build
   image: python
   commands:
     - python3 -m build
-
-depends_on:
-- common
-
----
-kind: pipeline
-name: build-and-publish
-trigger:
-  event: promote
-
-steps:
-- name: build
-  image: python
-  commands:
-    - python3 -m build
+  depends_on:
+  - common
+  trigger:
+    event:
+    - push
+    - pull_request
+    - promote
 
 - name: pypi_publish
   image: plugins/pypi
@@ -112,12 +65,14 @@ steps:
     password:
       from_secret: pypi_password
     skip_build: True
-
-depends_on:
-- common
-- python-3-6
-- python-3-7
-- python-3-8
-- python-3-9
-- python-3-10
-- test-build
+  trigger:
+    event:
+      - promote
+  depends_on:
+  - common
+  - python-3-6
+  - python-3-7
+  - python-3-8
+  - python-3-9
+  - python-3-10
+  - test-build
