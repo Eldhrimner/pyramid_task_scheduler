@@ -1,12 +1,8 @@
+---
 kind: pipeline
-type: docker
 name: pyramid_task_scheduler
-
-platform:
-  os: linux
-
 steps:
-- name: flake8 and black
+- name: linting
   image: python
   commands:
     - pip install flake8 black 
@@ -14,15 +10,53 @@ steps:
     - black --diff .
     - black --check .
 
-- name: package_and_unit_tests
-  image: python
+- name: python3-6
+  image: python:3.6
   commands:
   - pip3 install .
+  depends_on:
+  - linting
+
+- name: python3-7
+  image: python:3.7
+  commands:
+  - pip3 install .
+  depends_on:
+  - linting
+
+- name: python3-8
+  image: python:3.8
+  commands:
+  - pip3 install .
+  depends_on:
+  - linting
+
+- name: python3-9
+  image: python:3.9
+  commands:
+  - pip3 install .
+  depends_on:
+  - linting
+
+- name: python3-10
+  image: python:3.10
+  commands:
+  - pip3 install .
+  depends_on:
+  - linting
 
 - name: build
   image: python
   commands:
+    - python3 -m pip install --upgrade build 
     - python3 -m build
+  depends_on:
+  - linting
+  when:
+    event:
+    - push
+    - pull_request
+    - promote
 
 - name: pypi_publish
   image: plugins/pypi
@@ -33,4 +67,13 @@ steps:
       from_secret: pypi_password
     skip_build: True
   when:
-    event: promote
+    event:
+      - promote
+  depends_on:
+  - linting
+  - python3-6
+  - python3-7
+  - python3-8
+  - python3-9
+  - python3-10
+  - build

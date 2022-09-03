@@ -22,8 +22,3 @@ repos:
     rev: '3.9.2'  # pick a git hash / tag to point to
     hooks:
     -   id: flake8
-
--  repo: https://github.com/waisbrot/pre-commit-jsonnet.git
-   rev: v1.0
-   hooks:
-   - id: jsonnetfmt
