@@ -20,6 +20,9 @@ steps:
   commands:
   - pip3 install .
 
+depends_on:
+  - common
+
 ---
 kind: pipeline
 name: python-3-7
@@ -29,6 +32,9 @@ steps:
   image: python:3.7
   commands:
   - pip3 install .
+
+depends_on:
+  - common
 
 ---
 kind: pipeline
@@ -40,6 +46,9 @@ steps:
   commands:
   - pip3 install .
 
+depends_on:
+  - common
+
 ---
 kind: pipeline
 name: python-3-9
@@ -49,6 +58,9 @@ steps:
   image: python:3.9
   commands:
   - pip3 install .
+
+depends_on:
+  - common
 
 ---
 kind: pipeline
@@ -60,10 +72,13 @@ steps:
   commands:
   - pip3 install .
 
+depends_on:
+  - common
+
 ---
 kind: pipeline
 name: test-build
-when:
+trigger:
   event: push
 
 steps:
@@ -71,6 +86,9 @@ steps:
   image: python
   commands:
     - python3 -m build
+
+depends_on:
+  - common
 
 ---
 kind: pipeline
