@@ -5,6 +5,9 @@ name: pyramid_task_scheduler
 platform:
   os: linux
 
+---
+kind: pipeline
+name: common
 steps:
 - name: flake8 and black
   image: python
@@ -14,11 +17,75 @@ steps:
     - black --diff .
     - black --check .
 
-- name: package_and_unit_tests
-  image: python
+---
+kind: pipeline
+name: python-3-6
+
+steps:
+- name: test
+  image: python:3.6
   commands:
   - pip3 install .
 
+---
+kind: pipeline
+name: python-3-7
+
+steps:
+- name: test
+  image: python:3.7
+  commands:
+  - pip3 install .
+
+---
+kind: pipeline
+name: python-3-8
+
+steps:
+- name: test
+  image: python:3.8
+  commands:
+  - pip3 install .
+
+---
+kind: pipeline
+name: python-3-9
+
+steps:
+- name: test
+  image: python:3.9
+  commands:
+  - pip3 install .
+
+---
+kind: pipeline
+name: python-3-10
+
+steps:
+- name: test
+  image: python:3.10
+  commands:
+  - pip3 install .
+
+---
+kind: pipeline
+name: test build
+when:
+  event: push
+
+steps:
+- name: build
+  image: python
+  commands:
+    - python3 -m build
+
+---
+kind: pipeline
+name: build and publish
+when:
+  event: promote
+
+steps:
 - name: build
   image: python
   commands:
@@ -32,5 +99,3 @@ steps:
     password:
       from_secret: pypi_password
     skip_build: True
-  when:
-    event: promote
