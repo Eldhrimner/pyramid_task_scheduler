@@ -75,7 +75,7 @@ steps:
 ---
 kind: pipeline
 name: build-and-publish
-when:
+trigger:
   event: promote
 
 steps:
