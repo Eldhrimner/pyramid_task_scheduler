@@ -1,10 +1,3 @@
-kind: pipeline
-type: docker
-name: pyramid_task_scheduler
-
-platform:
-  os: linux
-
 ---
 kind: pipeline
 name: common
@@ -69,7 +62,7 @@ steps:
 
 ---
 kind: pipeline
-name: test build
+name: test-build
 when:
   event: push
 
@@ -81,7 +74,7 @@ steps:
 
 ---
 kind: pipeline
-name: build and publish
+name: build-and-publish
 when:
   event: promote
 
@@ -99,3 +92,12 @@ steps:
     password:
       from_secret: pypi_password
     skip_build: True
+
+depends_on:
+- common
+- python-3-6
+- python-3-7
+- python-3-8
+- python-3-9
+- python-3-10
+- test-build
