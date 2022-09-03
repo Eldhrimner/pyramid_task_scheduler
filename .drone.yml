@@ -2,7 +2,7 @@
 kind: pipeline
 name: pyramid_task_scheduler
 steps:
-- name: flake8 and black
+- name: linting
   image: python
   commands:
     - pip install flake8 black 
@@ -15,42 +15,42 @@ steps:
   commands:
   - pip3 install .
   depends_on:
-  - common
+  - linting
 
 - name: python3-7
   image: python:3.7
   commands:
   - pip3 install .
   depends_on:
-  - common
+  - linting
 
 - name: python3-8
   image: python:3.8
   commands:
   - pip3 install .
   depends_on:
-  - common
+  - linting
 
 - name: python3-9
   image: python:3.9
   commands:
   - pip3 install .
   depends_on:
-  - common
+  - linting
 
 - name: python3-10
   image: python:3.10
   commands:
   - pip3 install .
   depends_on:
-  - common
+  - linting
 
 - name: build
   image: python
   commands:
     - python3 -m build
   depends_on:
-  - common
+  - linting
   trigger:
     event:
     - push
@@ -69,10 +69,10 @@ steps:
     event:
       - promote
   depends_on:
-  - common
+  - linting
   - python-3-6
   - python-3-7
   - python-3-8
   - python-3-9
   - python-3-10
-  - test-build
+  - build
