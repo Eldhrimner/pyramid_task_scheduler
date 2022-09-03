@@ -21,7 +21,7 @@ steps:
   - pip3 install .
 
 depends_on:
-  - common
+- common
 
 ---
 kind: pipeline
@@ -34,7 +34,7 @@ steps:
   - pip3 install .
 
 depends_on:
-  - common
+- common
 
 ---
 kind: pipeline
@@ -47,7 +47,7 @@ steps:
   - pip3 install .
 
 depends_on:
-  - common
+- common
 
 ---
 kind: pipeline
@@ -60,7 +60,7 @@ steps:
   - pip3 install .
 
 depends_on:
-  - common
+- common
 
 ---
 kind: pipeline
@@ -73,7 +73,7 @@ steps:
   - pip3 install .
 
 depends_on:
-  - common
+- common
 
 ---
 kind: pipeline
@@ -90,7 +90,7 @@ steps:
     - python3 -m build
 
 depends_on:
-  - common
+- common
 
 ---
 kind: pipeline
